@@ -1,0 +1,20 @@
+!!!
+%html{:lang => "en"}
+  %head
+    %title CREMA
+    %meta{"http-equiv" => "Content-Type", :content => "text/html; charset=utf-8"}
+    %link{"rel" => "stylesheet", "href" => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"}
+    %link{"rel" => "stylesheet", "href" => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css"}
+  %body
+    %nav.navbar.navbar-default 
+      %a{:class => "navbar-brand", :href => "#"} CREMA
+    
+    .container-fluid
+      .col-md-6.col-md-offset-3
+        %table.table
+          - @references['Reference'].each do |ref|
+            %tr{ class:[ (:success if ref['Ports-Open']), (:danger if !ref['Ports-Open']) ] }
+              %td&= ref['Title']
+              %td&= ref['Client']['Name']
+    %script{:src  => "//code.jquery.com/jquery-1.11.3.min.js"}
+    %script{:src  => "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"}
