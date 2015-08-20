@@ -31,6 +31,9 @@ class App < NYNY::App
 
   get '/' do
     @references = parse_references(HTTPClient.get_content 'https://clonkspot.org/league/league.php')
+    if not @references['Reference'].is_a?(Array)
+      @references['Reference'] = [@references['Reference']]
+    end
     @references['Reference'].each do |ref|
       if ref['Client'].is_a?(Array)
         ref['Client'] = ref['Client'].first
