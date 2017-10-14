@@ -1,0 +1,18 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    cuba (3.8.1)
+      rack (>= 1.6.0)
+    rack (2.0.3)
+    tilt (2.0.8)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  cuba!
+  rack!
+  tilt!
+
+BUNDLED WITH
+   1.13.7

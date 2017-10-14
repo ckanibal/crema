@@ -1,0 +1,45 @@
+<div class="col-md-6.col-md-offset-3">
+  <table class="table table-sm">
+    <thead>
+      <tr>
+        <th>#</th>
+	<th>Szenario</th>
+        <th>Host</th>
+        <th class="text-right">Ports</th>
+      </tr>
+    </thead>
+    <% @references['Reference'].to_enum.with_index(1).each do |ref, index| %>
+      <%
+        status = case 
+          when ref['Ports-Open'].any? {|addr| addr[:status] == true }
+            true
+          when ref['Ports-Open'].any? {|addr| addr[:status] === '?' }
+            '?'
+          else
+            false
+        end
+      %>
+      <tr class=<%= case status when true then 'table-success' when '?' then 'table-warning' else 'table-danger' end %>>
+        <td><%= index %></td>
+        <td><%= ref['Title'] %></td>
+        <td><%= ref['Client']['Name'] %></td>
+        <td class="text-right">
+          <button class="btn btn-sm <%= case status when true then 'btn-success' when '?' then 'btn-warning' else 'btn-danger' end %>" type="button" data-toggle="collapse" data-target="#addresses<%= index %>" aria-expanded="false" aria-controls="#addresses<%= index %>">
+            <%= case status when true then '✓' when '?' then '⚠' else '✘' end %>
+          </button>
+          <div class="collapse" id="addresses<%= index %>">
+          <% ref['Ports-Open'].each do |addr| %>
+            <%# hide last octet for better privacy %>
+            <span class="badge <%= case addr[:status] when true then 'badge-success' when '?' then 'badge-warning' else 'badge-danger' end %>">
+              <%= addr[:prot] %>
+              <%= addr[:ip].rpartition(".")[0]+".█" %>
+              :<%= addr[:port] %>
+            </span>
+          <% end %>
+          </div>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+

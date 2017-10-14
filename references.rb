@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'httpclient'
-
 def parse_references(response)
   document = Hash.new
   stack = [document]

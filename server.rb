@@ -1,20 +1,45 @@
 #!ruby -I ../../lib -I lib
 
-require 'nyny'
-require 'haml'
-require 'httpclient'
+require 'cuba'
+require 'cuba/render'
+require 'erb'
+require 'open-uri'
 require 'socket'
 require 'timeout'
+require 'ipaddr'
 
-require_relative 'references'
+require './references'
 
-def is_port_open?(ip, port)
+# config
+LEAGUE_URL = 'https://clonkspot.org/league/league.php'
+
+
+# code
+PRIVATE_IPS = [
+  IPAddr.new('10.0.0.0/8'),
+  IPAddr.new('172.16.0.0/12'),
+  IPAddr.new('192.168.0.0/16'),
+].freeze
+
+def private_ip?(ip_address)
+  if ip_address.is_a?(String)
+    ip_address = IPAddr.new(ip_address)
+  end
+  
+  PRIVATE_IPS.any? { |private_ip| private_ip.include?(ip_address) }
+end
+
+def is_port_open?(host, port)
   begin
     Timeout::timeout(1) do
       begin
-        s = TCPSocket.new(ip, port)
-        s.close
-        return true
+        unless private_ip?(host)
+          s = TCPSocket.new(host, port)
+          s.close
+          return true
+        else
+          return false
+        end
       rescue Errno::ECONNREFUSED, Errno::EHOSTUNREACH
         return false
       end
@@ -25,25 +50,40 @@ def is_port_open?(ip, port)
   return false
 end
 
-Dir.chdir(File.dirname(File.expand_path(__FILE__)))
-class App < NYNY::App
-  use Rack::Static, :urls => ["/css", "/images"], :root => "crema/app/assets"  
+Cuba.plugin Cuba::Render
 
-  get '/' do
-    @references = parse_references(HTTPClient.get_content 'https://clonkspot.org/league/league.php')
-    if not @references['Reference'].is_a?(Array)
-      @references['Reference'] = [@references['Reference']]
-    end
-    @references['Reference'].each do |ref|
-      if ref['Client'].is_a?(Array)
-        ref['Client'] = ref['Client'].first
+Cuba.define do
+  on get do
+    on root do
+      open(LEAGUE_URL) do |f|
+        page = f.read
+        @references = parse_references(page)
+        if not @references['Reference'].is_a?(Array)
+          @references['Reference'] = [@references['Reference']]
+        end
+        threads = []
+        @references['Reference'].each do |ref|
+          if ref['Client'].is_a?(Array)
+            ref['Client'] = ref['Client'].first
+          end
+          addresses = ref['Address'].split(',').uniq
+          ref['Ports-Open'] = []
+          addresses.each do |addr|
+            threads << Thread.new {
+              (prot, host, port) = addr.split(':')
+              status = case prot 
+                when 'TCP'
+                  is_port_open?(host, port) 
+                else 
+                  "?"
+              end
+              ref['Ports-Open'] << { :prot => prot, :ip => host, :port => port, :status => status }
+            }
+          end
+        end
+        threads.each { |thr| thr.join }
+        render('index')
       end
-      addr = ref['Address'].split(',').first
-      (host, port) = addr[4..-1].split(':')
-      ref['Ports-Open'] = is_port_open?(host, port)
     end
-    render 'app/views/index.haml'
   end
 end
-
-App.run! 61515
