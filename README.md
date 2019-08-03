@@ -6,6 +6,6 @@ A little web-based tool that queries a Clonk Rage masterserver and knocks on all
 
 License
 -------
-MIT
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 'Clonk' is a registered trademark of Matthes Bender.
