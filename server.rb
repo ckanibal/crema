@@ -1,4 +1,5 @@
-#!ruby -I ../../lib -I lib
+#!/usr/bin/env ruby
+require 'bundler/setup'
 
 require 'cuba'
 require 'cuba/render'
