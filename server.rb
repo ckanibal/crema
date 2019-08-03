@@ -20,6 +20,8 @@ PRIVATE_IPS = [
   IPAddr.new('10.0.0.0/8'),
   IPAddr.new('172.16.0.0/12'),
   IPAddr.new('192.168.0.0/16'),
+  IPAddr.new('fc00::/7'),
+  IPAddr.new('fe80::/10'),
 ].freeze
 
 def private_ip?(ip_address)
@@ -58,20 +60,18 @@ Cuba.define do
     on root do
       open(LEAGUE_URL) do |f|
         page = f.read
-        @references = parse_references(page)
-        if not @references['Reference'].is_a?(Array)
-          @references['Reference'] = [@references['Reference']]
-        end
+        @references = Array(parse_references(page)['Reference'])
         threads = []
-        @references['Reference'].each do |ref|
+        @references.each do |ref|
           if ref['Client'].is_a?(Array)
             ref['Client'] = ref['Client'].first
           end
           addresses = ref['Address'].split(',').uniq
           ref['Ports-Open'] = []
-          addresses.each do |addr|
+          addresses.each do |address|
             threads << Thread.new {
-              (prot, host, port) = addr.split(':')
+              prot, addr = address.split(':', 2)
+              host, _, port = addr.tr('[]" ', '').rpartition(':')
               status = case prot 
                 when 'TCP'
                   is_port_open?(host, port) 

@@ -8,7 +8,7 @@
         <th class="text-right">Ports</th>
       </tr>
     </thead>
-    <% @references['Reference'].to_enum.with_index(1).each do |ref, index| %>
+    <% @references.to_enum.with_index(1).each do |ref, index| %>
       <%
         status = case 
           when ref['Ports-Open'].any? {|addr| addr[:status] == true }
@@ -32,7 +32,7 @@
             <%# hide last octet for better privacy %>
             <span class="badge <%= case addr[:status] when true then 'badge-success' when '?' then 'badge-warning' else 'badge-danger' end %>">
               <%= addr[:prot] %>
-              <%= addr[:ip].rpartition(".")[0]+".█" %>
+              <%= addr[:ip].rpartition(/[\.:]/)[0..1].join('') + "█" %>
               :<%= addr[:port] %>
             </span>
           <% end %>
