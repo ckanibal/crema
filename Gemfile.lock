@@ -3,7 +3,7 @@ GEM
   specs:
     cuba (3.9.2)
       rack (>= 1.6.0)
-    rack (2.0.7)
+    rack (2.0.8)
     tilt (2.0.9)
 
 PLATFORMS
