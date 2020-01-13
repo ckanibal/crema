@@ -1,0 +1,92 @@
+
+[LegacyClonk]
+Version=4,9,10,6,328
+MOTD=Live-Spieleliste unter
+MOTDURL=https://clonkspot.org/games
+
+[Clonk Rage]
+Version=4.9.10.7,330
+MOTD=Bitte zu LegacyClonk updaten.
+MOTDURL=https://clonkspot.org/lc
+
+[Reference]
+Icon=40
+State=Lobby
+CtrlMode=0
+StartTime=1578913010
+Comment="|\267 Hostwunsch? Gib <c eeee00>!host <Szenario></c> ein.|\267 Admin ist AFK? -> !admin afk|\267 Ingame-Chat: <c 009900>#clonk-tod-ingame</c>@euIRC|\267 Szenarioliste: <c 1111cc>https://crsm.cf/list</c>|\267 Dies ist der dedizierte Server von Der Tod."
+ObservingAllowed=false
+AddressCount=39
+Address=TCP:"[2001:41d0:2:bf6f:4000::9]:11112",UDP:"[2001:41d0:2:bf6f:4000::9]:11113",TCP:"[2001:41d0:2:bf6f::2]:11112",UDP:"[2001:41d0:2:bf6f::2]:11113",TCP:"[fe80::b221:279e]:11112",UDP:"[fe80::b221:279e]:11113",TCP:"[fe80::ff:fe07:37ad]:11112",UDP:"[fe80::ff:fe07:37ad]:11113",TCP:"[fe80::]:11112",UDP:"[fe80::]:11113",TCP:"[fe80::a860:5dff:fe29:f5f]:11112",UDP:"[fe80::a860:5dff:fe29:f5f]:11113",TCP:"[2001:41d0:2:bf6f:4000::9]:11112",UDP:"[2001:41d0:2:bf6f:4000::9]:11113",TCP:"[2001:41d0:2:bf6f:4000::8]:11112",UDP:"[2001:41d0:2:bf6f:4000::8]:11113",TCP:"[2001:41d0:2:bf6f:4000::7]:11112",UDP:"[2001:41d0:2:bf6f:4000::7]:11113",TCP:"[2001:41d0:2:bf6f:4000::6]:11112",UDP:"[2001:41d0:2:bf6f:4000::6]:11113",TCP:"[2001:41d0:2:bf6f:4000::5]:11112",UDP:"[2001:41d0:2:bf6f:4000::5]:11113",TCP:"[2001:41d0:2:bf6f:4000::4]:11112",UDP:"[2001:41d0:2:bf6f:4000::4]:11113",TCP:"[2001:41d0:2:bf6f:4000::3]:11112",UDP:"[2001:41d0:2:bf6f:4000::3]:11113",TCP:"[2001:41d0:2:bf6f:4000::2]:11112",UDP:"[2001:41d0:2:bf6f:4000::2]:11113",TCP:"[2001:41d0:2:bf6f:4000::1]:11112",UDP:"[2001:41d0:2:bf6f:4000::1]:11113",TCP:"[2001:41d0:2:bf6f:4000::]:11112",UDP:"[2001:41d0:2:bf6f:4000::]:11113",TCP:"[2001:41d0:2:bf6f:5200::1]:11112",UDP:"[2001:41d0:2:bf6f:5200::1]:11113",TCP:"178.33.39.158:11112",UDP:"178.33.39.158:11113",TCP:"10.11.0.1:11112",UDP:"10.11.0.1:11113",TCP:"10.5.0.1:11112"
+Game="LegacyClonk"
+Version=4,9,10,8
+Build=337
+RandomSeed=1578913010
+MaxPlayers=8
+UseFairCrew=true
+FairCrewStrength=34151
+IsNetworkGame=true
+ControlRate=2
+AutoFrameSkip=true
+Rules=RVLR=1
+Goals=RACE=1
+Title="TerajumpersXtra"
+
+  [Scenario]
+  Type=Scenario
+  ID=0
+  FileSize=21152
+  FileCRC=3138770830
+  ContentsCRC=15811956
+  Filename="Other\\TerajumpersX2.c4s"
+  Author="Jan Heberer"
+
+  [Resource]
+  Type=Definitions
+  ID=1
+  FileSize=6879219
+  FileCRC=3812407615
+  ContentsCRC=3703238966
+  Filename="Objects.c4d"
+  Author="LegacyClonk Team"
+
+  [Resource]
+  Type=System
+  ID=2
+  Loadable=false
+  ContentsCRC=3492379548
+  Filename="System.c4g"
+  Author="New C4Group"
+
+  [Resource]
+  Type=Material
+  ID=3
+  FileSize=852690
+  FileCRC=321424691
+  ContentsCRC=1483139248
+  Filename="Material.c4g"
+  Author="LegacyClonk Team"
+
+  [PlayerInfos]
+
+    [Client]
+    ID=0
+    Flags=Initial
+
+  [Teams]
+  Custom=false
+  AllowHostilityChange=true
+  AutoGenerateTeams=true
+
+  [Client]
+  ID=0
+  Activated=true
+  Name="[DER]Server"
+  Nick="[DER]Server"
+
+  [NetpuncherID]
+  IPv4=4042920639
+  IPv6=2461258878
+NetpuncherAddr="netpuncher.openclonk.org:11115"
+OfficialServer=false
+GameId=796992
