@@ -12,8 +12,7 @@ require 'ipaddr'
 require './references'
 
 # config
-LEAGUE_URL = 'https://clonkspot.org/league/league.php'
-
+LEAGUE_URL = ENV.fetch("LEAGUE_URL", default: 'https://clonkspot.org/league/league.php')
 
 # code
 PRIVATE_IPS = [
@@ -60,8 +59,9 @@ Cuba.define do
     on root do
       open(LEAGUE_URL) do |f|
         page = f.read
-        @references = Array(parse_references(page)['Reference'])
+        response = parse_references(page)
         threads = []
+        @references = response["Reference"].is_a?(Array) ? response["Reference"] : [response["Reference"]]
         @references.each do |ref|
           if ref['Client'].is_a?(Array)
             ref['Client'] = ref['Client'].first
@@ -74,7 +74,11 @@ Cuba.define do
               host, _, port = addr.tr('[]" ', '').rpartition(':')
               status = case prot 
                 when 'TCP'
-                  is_port_open?(host, port) 
+                  begin
+                    is_port_open?(host, port)
+                  rescue
+                    "?"
+                  end
                 else 
                   "?"
               end
