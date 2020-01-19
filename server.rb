@@ -12,7 +12,7 @@ require 'ipaddr'
 require './references'
 
 # config
-LEAGUE_URL = ENV.fetch("LEAGUE_URL", default: 'https://clonkspot.org/league/league.php')
+LEAGUE_URL = ENV.fetch("LEAGUE_URL", 'https://clonkspot.org/league/league.php')
 
 # code
 PRIVATE_IPS = [
